@@ -4,6 +4,12 @@ import { Container } from './styles';
 
 const scrollTreshold = 300;
 
+declare global {
+  interface Window {
+    toggleActiveMenu: (() => void | undefined);
+  }
+}
+
 const SideMenu: React.FC = ({ children }) => {
   const [scrollY, setScrollY] = useState(0);
   const [isActive, setIsActive] = useState(true);
@@ -24,6 +30,12 @@ const SideMenu: React.FC = ({ children }) => {
     scrollY <= scrollTreshold ? 'scrollOpen' : '',
   ]
   const className = classes.join(' ').trim();
+
+  function toggleActiveMenu() {
+    setIsActive(prev => !prev);
+  }
+
+  window.toggleActiveMenu = toggleActiveMenu;
 
   return <Container className={className}>{children}</Container>
 }
